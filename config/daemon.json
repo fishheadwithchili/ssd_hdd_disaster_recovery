@@ -1,0 +1,15 @@
+{
+  "data-root": "/mnt/nvme1_data1_ext4/docker",
+  "storage-driver": "overlay2",
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "default-ulimits": {
+    "nofile": {
+      "Hard": 64000,
+      "Soft": 64000
+    }
+  }
+}

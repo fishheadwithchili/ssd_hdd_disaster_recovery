@@ -1,0 +1,31 @@
+# /etc/prometheus/rules/backup_alerts.yml
+groups:
+  - name: backup_alerts
+    interval: 60s
+    rules:
+      - alert: BackupTooOld
+        expr: backup_age_seconds > 7200  # 超过2小时
+        for: 10m
+        labels:
+          severity: critical
+        annotations:
+          summary: "备份过期超过2小时"
+          description: "最后备份时间: {{ $value }}秒前"
+      
+      - alert: BackupHDDFull
+        expr: backup_hdd_usage_percent > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "备份HDD使用率过高"
+          description: "当前使用率: {{ $value }}%"
+      
+      - alert: SnapshotCountLow
+        expr: backup_snapshot_count{type="hourly"} < 3
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Hourly快照数量不足"
+          description: "当前数量: {{ $value }}"
